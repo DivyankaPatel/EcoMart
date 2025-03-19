@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - EcoMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+    <header class="bg-green-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">EcoMart</h1>
+    </header>
+
+    <main class="max-w-2xl mx-auto bg-white p-6 shadow-md rounded mt-6 text-center">
+        <div id="product-details">
+            <!-- Product details will be loaded dynamically -->
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-6">
+            <h3 class="text-lg font-bold">Comments</h3>
+            <textarea id="comment" placeholder="Write your comment here..." class="w-full p-2 border rounded mt-2"></textarea>
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mt-2" onclick="submitComment()">Submit Comment</button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-4 flex gap-4 justify-center">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800" onclick="alert('Query sent!')">Ask Query</button>
+            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700" onclick="alert('Help requested!')">Help</button>
+            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700" onclick="alert('Reported!')">Report</button>
+        </div>
+    </main>
+
+    <div class="mt-4 text-center">
+        <a href="buy.html" class="text-blue-600 hover:underline">Back to Buy Page</a>
+    </div>
+
+    <script>
+        const product = JSON.parse(localStorage.getItem("selectedProduct"));
+        document.getElementById("product-details").innerHTML = `
+            <img src="${product.image}" class="w-full h-64 object-cover rounded">
+            <h2 class="text-2xl font-bold mt-4">${product.name}</h2>
+            <p>${product.description}</p>
+            <p class="text-lg font-bold mt-2">${product.price}</p>
+        `;
+
+        function submitComment() {
+            alert("Comment submitted!");
+        }
+    </script>
+</body>
+</html>

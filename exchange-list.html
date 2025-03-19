@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Products - EcoMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="bg-green-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">EcoMart</h1>
+        <nav>
+            <a href="index.html" class="px-3 hover:underline">Home</a>
+            <a href="cart.html" class="px-3 hover:underline">Cart</a>
+            <a href="favorites.html" class="px-3 hover:underline">Favorites</a>
+            <a href="orders.html" class="px-3 hover:underline">Orders</a>
+            <button onclick="logout()" class="ml-4 bg-red-500 px-4 py-2 rounded hover:bg-red-700">Logout</button>
+        </nav>
+    </header>
+
+    <main class="p-6">
+        <h2 class="text-2xl font-bold text-center">Exchange Products</h2>
+        <p class="text-center mt-2">Browse the products available for exchange.</p>
+
+        <div id="exchange-list" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <!-- Exchange products will be dynamically added here -->
+        </div>
+
+        <div class="text-center mt-6">
+            <button onclick="window.location.href='exchange.html'" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-800">Go Back</button>
+        </div>
+    </main>
+
+    <script>
+        function loadExchangeProducts() {
+            const exchangeList = document.getElementById("exchange-list");
+            const exchangeProducts = JSON.parse(localStorage.getItem("exchangeProducts")) || [];
+
+            if (exchangeProducts.length === 0) {
+                exchangeList.innerHTML = "<p class='text-center text-gray-600'>No products available for exchange.</p>";
+                return;
+            }
+
+            exchangeProducts.forEach((product, index) => {
+                const productCard = document.createElement("div");
+                productCard.className = "bg-white p-4 shadow-md rounded";
+
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded">
+                    <h3 class="text-lg font-bold mt-2">${product.name}</h3>
+                    <p class="text-sm text-gray-600">${product.description}</p>
+                    <p class="text-md font-bold mt-2">${product.price ? "$" + product.price : "No price set"}</p>
+                    <button class="w-full bg-green-600 text-white px-4 py-2 rounded mt-4 hover:bg-green-700">
+                        Request Exchange
+                    </button>
+                `;
+
+                exchangeList.appendChild(productCard);
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        } else {
+            loadExchangeProducts();
+        }
+    </script>
+
+</body>
+
+</html>

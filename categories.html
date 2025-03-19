@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMart - Products</title>
+    <script src="script.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ✅ Swipe Navigation Styles */
+        .section { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- ✅ Navbar -->
+    <nav class="bg-blue-600 text-white p-4 flex justify-between">
+        <span class="text-2xl font-bold">EcoMart</span>
+        <button onclick="logout()" class="bg-red-500 px-3 py-1 rounded">🚪 Logout</button>
+    </nav>
+    
+
+    <!-- ✅ Navbar with More Features -->
+<nav class="bg-blue-600 text-white p-4 text-center text-2xl font-bold flex justify-between">
+    <span>EcoMart</span>
+    <div class="space-x-4">
+        <a href="favorites.html" class="bg-red-500 px-3 py-1 rounded">❤️ Favorites</a>
+        <a href="orders.html" class="bg-yellow-500 px-3 py-1 rounded">📦 Orders</a>
+        <a href="account.html" class="bg-gray-500 px-3 py-1 rounded">👤 Account</a>
+    </div>
+</nav>
+
+
+    <!-- ✅ Navigation for Buy, Sell, Exchange -->
+<div class="flex justify-center mt-4 space-x-4">
+    <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="showSection('buy-section')">Buy</button>
+    <button class="bg-green-500 text-white px-4 py-2 rounded" onclick="showSection('sell-section')">Sell</button>
+    <button class="bg-yellow-500 text-white px-4 py-2 rounded" onclick="showSection('exchange-section')">Exchange</button>
+</div>
+
+
+   <!-- ✅ Buy Section -->
+<div id="buy-section" class="section active container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Available Products</h2>
+    <div id="product-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Products will be loaded here -->
+    </div>
+</div>
+
+
+  <!-- ✅ Sell Section -->
+<div id="sell-section" class="section container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Sell Your Product</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold">Upload a Product</h3>
+        <input type="text" id="product-name" placeholder="Product Name" class="w-full p-2 border rounded mt-2">
+        <input type="text" id="product-price" placeholder="Price" class="w-full p-2 border rounded mt-2">
+    
+ <!-- ✅ Camera & File Upload -->
+            <label class="block mt-2 text-gray-700">Upload Image:</label>
+            <input type="file" id="product-image" accept="image/*" capture="environment" class="w-full p-2 border rounded mt-2">
+            
+            <textarea id="product-description" placeholder="Product Description" class="w-full p-2 border rounded mt-2"></textarea>
+            <button onclick="uploadProduct()" class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Upload Product</button>
+        </div>
+    </div>
+
+<!-- ✅ Exchange Section -->
+<div id="exchange-section" class="section container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Exchange Your Product</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold">Upload an Item for Exchange</h3>
+        <input type="text" id="exchange-name" placeholder="Product Name" class="w-full p-2 border rounded mt-2">
+ 
+            <!-- ✅ Camera & File Upload -->
+            <label class="block mt-2 text-gray-700">Upload Image:</label>
+            <input type="file" id="exchange-image" accept="image/*" capture="environment" class="w-full p-2 border rounded mt-2">
+            <textarea id="exchange-description" placeholder="Product Description" class="w-full p-2 border rounded mt-2"></textarea>
+            <button onclick="uploadExchange()" class="bg-yellow-600 text-white px-4 py-2 rounded mt-4">Submit Exchange</button>
+        </div>
+    </div>
+
+    <!-- ✅ Swipe Navigation -->
+    <div class="flex justify-center mt-6 space-x-4">
+        <button class="bg-gray-400 text-white px-4 py-2 rounded" onclick="previousSection()">⬅️ Previous</button>
+        <button class="bg-gray-400 text-white px-4 py-2 rounded" onclick="nextSection()">Next ➡️</button>
+    </div>
+
+    <script>
+        let sections = ["buy-section", "sell-section", "exchange-section"];
+        let currentIndex = 0;
+
+        function showSection(sectionId) {
+            sections.forEach(id => {
+                document.getElementById(id).classList.remove("active");
+            });
+            document.getElementById(sectionId).classList.add("active");
+            currentIndex = sections.indexOf(sectionId);
+        }
+
+        function nextSection() {
+            currentIndex = (currentIndex + 1) % sections.length;
+            showSection(sections[currentIndex]);
+        }
+
+        function previousSection() {
+            currentIndex = (currentIndex - 1 + sections.length) % sections.length;
+            showSection(sections[currentIndex]);
+        }
+    </script>
+
+<style>
+    /* ✅ Smooth Transitions */
+    .hidden { display: none; }
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+<div id="buy-section" class="section fade-in hidden">
+    <h2 class="text-3xl font-bold text-center">Buy Products</h2>
+    <div id="product-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+</div>
+</body>
+</html>

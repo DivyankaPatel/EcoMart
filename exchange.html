@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMart - Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- ✅ Navigation Bar -->
+    <nav class="bg-green-600 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold">EcoMart</h1>
+        <div class="space-x-2">
+            <a href="buy.html" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Buy</a>
+            <a href="sell.html" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Sell</a>
+            <a href="exchange.html" class="bg-yellow-400 px-4 py-2 rounded">Exchange</a>
+        </div>
+        <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-700">Logout</button>
+    </nav>
+
+    <!-- ✅ Filters Section -->
+<div class="bg-white p-4 flex flex-col md:flex-row justify-around mt-4 shadow">
+    <!-- ✅ Category Filter -->
+    <select id="category-filter" class="border p-2 rounded" onchange="updateBrands(); filterProducts();">
+        <option value="">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="fashion">Fashion</option>
+        <option value="mobile">Mobile</option>
+        <option value="smart-gadgets">Smart Gadgets</option>
+        <option value="home">Home</option>
+        <option value="beauty">Beauty & Personal Care</option>
+        <option value="baby">Baby Products & Toys</option>
+        <option value="furniture">Home Furniture & Decor</option>
+        <option value="health">Pharmacy & Health</option>
+        <option value="vehicles">Cars & Bike Essentials</option>
+        <option value="sports">Sports & Fitness</option>
+        <option value="kitchen">Kitchen</option>
+    </select>
+
+    <!-- ✅ Brand Filter (Initially Empty) -->
+    <select id="brand-filter" class="border p-2 rounded" onchange="filterProducts()">
+        <option value="">All Brands</option>
+    </select>
+</div>
+
+<!-- ✅ Search Bar with Icon -->
+<div class="mt-4 flex justify-center relative">
+    <input type="text" id="search-box" class="border p-2 w-1/2 rounded pl-10" placeholder="Search for products..." onkeyup="searchProducts()">
+    <span class="absolute left-[25%] top-1/2 transform -translate-y-1/2 text-gray-500">
+        🔍
+    </span>
+</div>
+
+
+<!-- ✅ JavaScript -->
+<script>
+    // ✅ Predefined brands for each category
+    const brandMapping = {
+        "electronics": ["Sony", "LG", "Samsung", "Philips"],
+        "fashion": ["Nike", "Adidas", "Puma", "Gucci"],
+        "mobile": ["Apple", "Samsung", "OnePlus", "Xiaomi"],
+        "smart-gadgets": ["Amazon", "Google", "Apple", "Samsung"],
+        "home": ["IKEA", "Godrej", "Urban Ladder"],
+        "beauty": ["L'Oreal", "Nivea", "Dove", "Himalaya"],
+        "baby": ["Huggies", "Johnson & Johnson", "Pampers"],
+        "furniture": ["Godrej", "Durian", "HomeTown"],
+        "health": ["Himalaya", "Dabur", "Patanjali"],
+        "vehicles": ["Hero", "Yamaha", "Suzuki"],
+        "sports": ["Reebok", "Decathlon", "Nike"],
+        "kitchen": ["Prestige", "Hawkins", "Pigeon"]
+    };
+
+    // ✅ Update Brands Based on Selected Category
+    function updateBrands() {
+        const category = document.getElementById("category-filter").value;
+        const brandFilter = document.getElementById("brand-filter");
+
+        // ✅ Reset brand options
+        brandFilter.innerHTML = `<option value="">All Brands</option>`;
+
+        if (category && brandMapping[category]) {
+            brandMapping[category].forEach(brand => {
+                let option = document.createElement("option");
+                option.value = brand;
+                option.textContent = brand;
+                brandFilter.appendChild(option);
+            });
+        }
+    }
+
+    // ✅ Search & Auto-Update Category and Brand
+    function searchProducts() {
+        const searchQuery = document.getElementById("search-box").value.toLowerCase();
+        const categoryFilter = document.getElementById("category-filter");
+        const brandFilter = document.getElementById("brand-filter");
+
+        // ✅ Check if the search query matches a category
+        let matchedCategory = Object.keys(brandMapping).find(category => searchQuery.includes(category));
+
+        if (matchedCategory) {
+            categoryFilter.value = matchedCategory;
+            updateBrands(); // ✅ Update brands when category is auto-selected
+
+            // ✅ Check if search matches a specific brand
+            let matchedBrands = brandMapping[matchedCategory].filter(brand => searchQuery.includes(brand.toLowerCase()));
+
+            // ✅ Auto-select brand if only one match
+            if (matchedBrands.length === 1) {
+                brandFilter.value = matchedBrands[0];
+            }
+        }
+
+        // 👉 Here, add your logic to fetch and display searched products
+        console.log("Searching for:", searchQuery, "in", matchedCategory);
+    }
+
+    // ✅ Filter Products Based on Selection
+    function filterProducts() {
+        const category = document.getElementById("category-filter").value;
+        const brand = document.getElementById("brand-filter").value;
+        console.log("Filtering products for:", category, brand);
+
+        // 👉 Here, add your logic to fetch and display filtered products
+    }
+</script>
+    </section>
+
+    <!-- ✅ Exchange Product Form -->
+    <main class="p-6 text-center">
+        <h2 class="text-2xl font-bold">Exchange Your Product</h2>
+        <p class="mt-2">Upload an image and provide details to exchange your product.</p>
+
+        <form id="sellForm" class="mt-6 bg-white p-6 rounded shadow-md max-w-lg mx-auto">
+            <input type="text" id="sell-name" placeholder="Product Name" class="w-full p-2 border rounded mt-2" required>
+            <textarea id="sell-description" placeholder="Description" class="w-full p-2 border rounded mt-2" required></textarea>
+            <input type="text" placeholder="Expected Exchange Product" class="w-full p-2 border rounded mt-2" required>
+
+            <label for="sell-image" class="block text-left mt-4 font-bold">Upload Image:</label>
+            <input type="file" id="sell-image" class="w-full p-2 border rounded mt-2" accept="image/png, image/jpeg" required>
+
+            <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded mt-4 hover:bg-blue-700">
+                Submit
+            </button>
+        </form>
+    </main>
+
+    <!-- ✅ Previous Button -->
+    <section class="mt-6 text-center">
+        <button onclick="goPrevious()" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-700">
+            ← Previous
+        </button>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="bg-gray-900 text-white text-center p-4 mt-6">
+        &copy; 2025 EcoMart. All rights reserved.
+    </footer>
+
+    <script>
+        // ✅ Logout Function
+        function logout() {
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        // ✅ Previous Button Logic
+        function goPrevious() {
+            window.location.href = "sell.html"; // Go back to Sell page
+        }
+
+        // ✅ Redirect if Not Logged In
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>

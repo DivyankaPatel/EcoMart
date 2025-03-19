@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - EcoMart</title>
+    <style>
+        #qrSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #paymentQR {
+            width: 200px;
+            height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Checkout</h2>
+    <p>Total Amount: ₹<span id="totalAmount">500</span></p>  
+
+    <!-- Payment QR Section -->
+    <div id="qrSection">
+        <h3>Scan QR to Pay</h3>
+        <img id="paymentQR" src="" alt="Payment QR Code">
+        <p>After payment, click "Confirm Payment".</p>
+        <button onclick="confirmPayment()">Confirm Payment</button>
+    </div>
+
+    <!-- Pay Now Button -->
+    <button id="payNowBtn" onclick="generateQRCode()">Pay Now</button>
+
+    <script>
+        async function generateQRCode() {
+            const amount = document.getElementById("totalAmount").innerText; // Get total amount
+            
+            try {
+                const response = await fetch("http://127.0.0.1:5000/generate-payment-qr", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount }),
+                });
+
+                const data = await response.json();
+                if (data.qrCode) {
+                    document.getElementById("paymentQR").src = data.qrCode;
+                    document.getElementById("qrSection").style.display = "block";
+                    document.getElementById("payNowBtn").style.display = "none"; // Hide Pay Now button
+                } else {
+                    alert("Failed to generate payment QR code.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        function confirmPayment() {
+            alert("Payment confirmed! Your order is being processed.");
+            window.location.href = "order-success.html"; // Redirect to order success page
+        }
+    </script>
+
+</body>
+</html>

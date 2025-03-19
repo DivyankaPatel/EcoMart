@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+  <div id="product-details" class="bg-white p-6 shadow rounded"></div>
+
+  <script>
+    async function fetchProduct() {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+
+      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const product = await response.json();
+
+      document.getElementById("product-details").innerHTML = `
+        <h1 class="text-2xl font-bold">${product.name}</h1>
+        <img src="${product.image}" class="w-64 h-64 object-cover">
+        <p>${product.description}</p>
+        <p class="text-lg font-semibold">${product.price} ₹</p>
+        <button class="bg-blue-600 text-white px-4 py-2">Add to Cart</button>
+      `;
+    }
+    fetchProduct();
+  </script>
+
+<div class="filters flex justify-between p-4">
+    <select id="categoryFilter" class="p-2 border rounded">
+        <option value="">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Furniture">Furniture</option>
+    </select>
+    <select id="brandFilter" class="p-2 border rounded">
+        <option value="">All Brands</option>
+        <option value="Apple">Apple</option>
+        <option value="Samsung">Samsung</option>
+        <option value="Nike">Nike</option>
+    </select>
+</div>
+
+<div id="productList" class="grid grid-cols-3 gap-4 p-4"></div>
+
+</body>
+</html>

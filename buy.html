@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Products - EcoMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- ✅ Navigation Bar -->
+    <header class="bg-green-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">EcoMart</h1>
+        
+       
+
+        
+        <!-- 🛍️ Icons -->
+        <nav>
+            <a href="cart.html" class="px-3 hover:underline">🛒 Cart</a>
+            <a href="favorites.html" class="px-3 hover:underline">❤️ Favorites</a>
+            <a href="orders.html" class="px-3 hover:underline">📦 Orders</a>
+            <button onclick="logout()" class="ml-4 bg-red-500 px-4 py-2 rounded hover:bg-red-700">Logout</button>
+        </nav>
+    </header>
+
+   <!-- ✅ Filters Section -->
+<div class="bg-white p-4 flex flex-col md:flex-row justify-around mt-4 shadow">
+    <!-- ✅ Category Filter -->
+    <select id="category-filter" class="border p-2 rounded" onchange="updateBrands(); filterProducts();">
+        <option value="">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="fashion">Fashion</option>
+        <option value="mobile">Mobile</option>
+        <option value="smart-gadgets">Smart Gadgets</option>
+        <option value="home">Home</option>
+        <option value="beauty">Beauty & Personal Care</option>
+        <option value="baby">Baby Products & Toys</option>
+        <option value="furniture">Home Furniture & Decor</option>
+        <option value="health">Pharmacy & Health</option>
+        <option value="vehicles">Cars & Bike Essentials</option>
+        <option value="sports">Sports & Fitness</option>
+        <option value="kitchen">Kitchen</option>
+    </select>
+
+    <!-- ✅ Brand Filter (Initially Empty) -->
+    <select id="brand-filter" class="border p-2 rounded" onchange="filterProducts()">
+        <option value="">All Brands</option>
+    </select>
+
+</div>
+
+
+<!-- ✅ Search Bar with Icon -->
+<div class="mt-4 flex justify-center relative">
+    <input type="text" id="search-box" class="border p-2 w-1/2 rounded pl-10" placeholder="Search for products..." onkeyup="searchProducts()">
+    <span class="absolute left-[25%] top-1/2 transform -translate-y-1/2 text-gray-500">
+        🔍
+    </span>
+</div>
+
+
+<!-- ✅ JavaScript -->
+<script>
+    // ✅ Predefined brands for each category
+    const brandMapping = {
+        "electronics": ["Sony", "LG", "Samsung", "Philips"],
+        "fashion": ["Nike", "Adidas", "Puma", "Gucci"],
+        "mobile": ["Apple", "Samsung", "OnePlus", "Xiaomi"],
+        "smart-gadgets": ["Amazon", "Google", "Apple", "Samsung"],
+        "home": ["IKEA", "Godrej", "Urban Ladder"],
+        "beauty": ["L'Oreal", "Nivea", "Dove", "Himalaya"],
+        "baby": ["Huggies", "Johnson & Johnson", "Pampers"],
+        "furniture": ["Godrej", "Durian", "HomeTown"],
+        "health": ["Himalaya", "Dabur", "Patanjali"],
+        "vehicles": ["Hero", "Yamaha", "Suzuki"],
+        "sports": ["Reebok", "Decathlon", "Nike"],
+        "kitchen": ["Prestige", "Hawkins", "Pigeon"]
+    };
+
+    // ✅ Update Brands Based on Selected Category
+    function updateBrands() {
+        const category = document.getElementById("category-filter").value;
+        const brandFilter = document.getElementById("brand-filter");
+
+        // ✅ Reset brand options
+        brandFilter.innerHTML = `<option value="">All Brands</option>`;
+
+        if (category && brandMapping[category]) {
+            brandMapping[category].forEach(brand => {
+                let option = document.createElement("option");
+                option.value = brand;
+                option.textContent = brand;
+                brandFilter.appendChild(option);
+            });
+        }
+    }
+
+    // ✅ Search & Auto-Update Category and Brand
+    function searchProducts() {
+        const searchQuery = document.getElementById("search-box").value.toLowerCase();
+        const categoryFilter = document.getElementById("category-filter");
+        const brandFilter = document.getElementById("brand-filter");
+
+        // ✅ Check if the search query matches a category
+        let matchedCategory = Object.keys(brandMapping).find(category => searchQuery.includes(category));
+
+        if (matchedCategory) {
+            categoryFilter.value = matchedCategory;
+            updateBrands(); // ✅ Update brands when category is auto-selected
+
+            // ✅ Check if search matches a specific brand
+            let matchedBrands = brandMapping[matchedCategory].filter(brand => searchQuery.includes(brand.toLowerCase()));
+
+            // ✅ Auto-select brand if only one match
+            if (matchedBrands.length === 1) {
+                brandFilter.value = matchedBrands[0];
+            }
+        }
+
+        // 👉 Here, add your logic to fetch and display searched products
+        console.log("Searching for:", searchQuery, "in", matchedCategory);
+    }
+
+    // ✅ Filter Products Based on Selection
+    function filterProducts() {
+        const category = document.getElementById("category-filter").value;
+        const brand = document.getElementById("brand-filter").value;
+        console.log("Filtering products for:", category, brand);
+
+        // 👉 Here, add your logic to fetch and display filtered products
+    }
+</script>
+
+
+    <!-- ✅ Product Grid -->
+    <section id="product-list" class="p-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Products will be dynamically added here -->
+    </section>
+
+    <!-- ✅ Navigation Buttons -->
+    <div class="flex justify-between p-4">
+        <a href="exchange.html" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">Previous</a>
+        <a href="sell.html" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Next</a>
+    </div>
+
+    <script>
+        const products = [
+    // 📱 Electronics
+    { id: 1, name: "Sony Bravia 55-inch TV", category: "electronics", brand: "sony", price: "₹95,000", 
+      image: "sony_bravia.jpg", description: "Ultra HD 4K Smart TV with HDR10 & Dolby Vision.", favorite: "❤️", share: "📤" },
+    { id: 2, name: "LG OLED C2 65-inch", category: "electronics", brand: "lg", price: "₹1,25,000", 
+      image: "lg_oled.jpg", description: "Self-lit OLED display with Dolby Atmos support.", favorite: "❤️", share: "📤" },
+    { id: 3, name: "Philips Soundbar 500W", category: "electronics", brand: "philips", price: "₹22,500", 
+      image: "philips_soundbar.jpg", description: "Deep bass, wireless subwoofer, Dolby audio.", favorite: "❤️", share: "📤" },
+
+    // 👗 Fashion
+    { id: 4, name: "Nike Air Jordan Sneakers", category: "fashion", brand: "nike", price: "₹15,999", 
+      image: "nike_air_jordan.jpg", description: "High-top basketball shoes with superior comfort.", favorite: "❤️", share: "📤" },
+    { id: 5, name: "Adidas Ultraboost Running Shoes", category: "fashion", brand: "adidas", price: "₹12,499", 
+      image: "adidas_ultraboost.jpg", description: "Boost midsole for maximum energy return.", favorite: "❤️", share: "📤" },
+
+    // 📱 Mobile
+    { id: 6, name: "iPhone 14 Pro Max", category: "mobile", brand: "apple", price: "₹1,29,900", 
+      image: "iphone_14_pro.jpg", description: "A16 Bionic Chip, 48MP Pro camera, 5G ready.", favorite: "❤️", share: "📤" },
+    { id: 7, name: "Samsung Galaxy S23 Ultra", category: "mobile", brand: "samsung", price: "₹1,24,999", 
+      image: "samsung_s23_ultra.jpg", description: "200MP camera, Snapdragon 8 Gen 2, S-Pen included.", favorite: "❤️", share: "📤" },
+
+    // 🏠 Home
+    { id: 8, name: "IKEA Queen Size Bed", category: "home", brand: "ikea", price: "₹35,000", 
+      image: "ikea_bed.jpg", description: "Modern wooden frame with extra storage.", favorite: "❤️", share: "📤" },
+    { id: 9, name: "Urban Ladder Coffee Table", category: "home", brand: "urban ladder", price: "₹7,499", 
+      image: "urban_table.jpg", description: "Minimalist wooden table for your living room.", favorite: "❤️", share: "📤" },
+
+    // 💄 Beauty & Personal Care
+    { id: 10, name: "L'Oreal Paris Face Serum", category: "beauty", brand: "l'oreal", price: "₹1,299", 
+      image: "loreal_serum.jpg", description: "Vitamin C brightening serum for glowing skin.", favorite: "❤️", share: "📤" },
+    { id: 11, name: "Nivea Body Lotion 400ml", category: "beauty", brand: "nivea", price: "₹349", 
+      image: "nivea_lotion.jpg", description: "Deep moisture lock for 48-hour hydration.", favorite: "❤️", share: "📤" },
+
+    // 👶 Baby Products
+    { id: 12, name: "Huggies Newborn Diapers", category: "baby", brand: "huggies", price: "₹699", 
+      image: "huggies_diapers.jpg", description: "Gentle on skin, up to 12 hours dryness.", favorite: "❤️", share: "📤" },
+    { id: 13, name: "Johnson's Baby Oil 200ml", category: "baby", brand: "johnson & johnson", price: "₹199", 
+      image: "johnson_baby_oil.jpg", description: "Mildness guaranteed, perfect for baby massage.", favorite: "❤️", share: "📤" },
+
+    // 🏋️ Sports & Fitness
+    { id: 14, name: "Reebok Gym Gloves", category: "sports", brand: "reebok", price: "₹1,499", 
+      image: "reebok_gloves.jpg", description: "High-grip gloves for enhanced gym performance.", favorite: "❤️", share: "📤" },
+    { id: 15, name: "Decathlon Yoga Mat", category: "sports", brand: "decathlon", price: "₹999", 
+      image: "decathlon_yoga_mat.jpg", description: "Non-slip surface, ideal for all yoga poses.", favorite: "❤️", share: "📤" },
+
+    // 🚗 Vehicles
+    { id: 16, name: "Hero Splendor Plus", category: "vehicles", brand: "hero", price: "₹85,000", 
+      image: "hero_splendor.jpg", description: "Most fuel-efficient bike with i3S technology.", favorite: "❤️", share: "📤" },
+    { id: 17, name: "Yamaha R15 V4", category: "vehicles", brand: "yamaha", price: "₹1,78,000", 
+      image: "yamaha_r15.jpg", description: "Sporty 155cc bike with liquid cooling.", favorite: "❤️", share: "📤" },
+
+    // 🏡 Furniture
+    { id: 18, name: "Durian Recliner Sofa", category: "furniture", brand: "durian", price: "₹42,999", 
+      image: "durian_sofa.jpg", description: "Luxurious recliner with premium leather.", favorite: "❤️", share: "📤" },
+    { id: 19, name: "Godrej Wardrobe 4-Door", category: "furniture", brand: "godrej", price: "₹22,500", 
+      image: "godrej_wardrobe.jpg", description: "Spacious wardrobe with multiple compartments.", favorite: "❤️", share: "📤" },
+
+    // 🏥 Health
+    { id: 20, name: "Himalaya Liv.52 Tablets", category: "health", brand: "himalaya", price: "₹149", 
+      image: "himalaya_liv52.jpg", description: "Supports liver health and digestion.", favorite: "❤️", share: "📤" },
+    { id: 21, name: "Dabur Chyawanprash 1kg", category: "health", brand: "dabur", price: "₹399", 
+      image: "dabur_chyawanprash.jpg", description: "Boosts immunity and strengthens the body.", favorite: "❤️", share: "📤" }
+];
+
+
+        // ✅ Load Products
+        function loadProducts() {
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+            products.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "bg-white p-4 shadow-md rounded cursor-pointer hover:shadow-lg";
+                productCard.onclick = () => openProductDetails(product);
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded">
+                    <h3 class="text-lg font-bold mt-2">${product.name}</h3>
+                    <p class="text-sm text-gray-600">${product.category} | ${product.brand}</p>
+                    <p class="text-md font-bold mt-2">${product.price}</p>
+                `;
+                
+                productList.appendChild(productCard);
+            });
+        }
+
+        // ✅ Open Product Details
+        function openProductDetails(product) {
+            localStorage.setItem("selectedProduct", JSON.stringify(product));
+            window.location.href = "product-details.html";
+        }
+
+        // ✅ Filter Products
+        function filterProducts() {
+            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+            const categoryFilter = document.getElementById("category-filter").value;
+            const brandFilter = document.getElementById("brand-filter").value;
+
+            const filteredProducts = products.filter(product => {
+                return (
+                    (product.name.toLowerCase().includes(searchQuery) || product.category.toLowerCase().includes(searchQuery)) &&
+                    (categoryFilter === "" || product.category === categoryFilter) &&
+                    (brandFilter === "" || product.brand === brandFilter)
+                );
+            });
+
+            document.getElementById("product-list").innerHTML = "";
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "bg-white p-4 shadow-md rounded cursor-pointer hover:shadow-lg";
+                productCard.onclick = () => openProductDetails(product);
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded">
+                    <h3 class="text-lg font-bold mt-2">${product.name}</h3>
+                    <p class="text-sm text-gray-600">${product.category} | ${product.brand}</p>
+                    <p class="text-md font-bold mt-2">${product.price}</p>
+                `;
+                
+                document.getElementById("product-list").appendChild(productCard);
+            });
+        }
+
+        // ✅ Logout Function
+        function logout() {
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        // ✅ Check Authentication & Load Products
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        } else {
+            loadProducts();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "iPhone 13",
+        "price": 999,
+        "image": "iphone13.jpg",
+        "brand": "apple",
+        "category": "electronics"
+    },
+    {
+        "id": 2,
+        "name": "Samsung Galaxy S21",
+        "price": 799,
+        "image": "s21.jpg",
+        "brand": "samsung",
+        "category": "electronics"
+    }
+]

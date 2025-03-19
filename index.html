@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMart - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- ✅ Navigation Bar -->
+    <nav class="bg-green-600 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold">EcoMart</h1>
+        <div class="space-x-4">
+            <a href="index.html" class="hover:underline">Home</a>
+            <a href="buy.html" class="hover:underline">Shop</a>
+            <a href="exchange.html" class="hover:underline">Recycle</a>
+            <a href="profile.html" class="hover:underline">Profile</a>
+        </div>
+        <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-700">Logout</button>
+    </nav>
+
+    <!-- ✅ Search Bar -->
+    <section class="p-6 max-w-lg mx-auto mt-6">
+        <input type="text" id="searchBar" placeholder="Search for products..." 
+               class="w-full p-3 border rounded shadow-md focus:ring-2 focus:ring-green-500">
+    </section>
+
+    <!-- ✅ Welcome Section -->
+    <header class="text-center p-6">
+        <h2 class="text-3xl font-bold">Welcome to EcoMart</h2>
+        <p class="text-gray-600 mt-2">Replace, and shop sustainably!</p>
+    </header>
+
+    <!-- ✅ Features Section -->
+    <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        <!-- Buy Card -->
+        <div class="bg-white p-6 shadow-md rounded text-center">
+            <h3 class="text-xl font-bold">Buy</h3>
+            <p class="text-gray-600 mt-2">Find sustainable products at great prices.</p>
+            <a href="buy.html" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
+                Browse Products
+            </a>
+        </div>
+
+        <!-- Sell Card -->
+        <div class="bg-white p-6 shadow-md rounded text-center">
+            <h3 class="text-xl font-bold">Sell</h3>
+            <p class="text-gray-600 mt-2">Sell your unused items and earn rewards.</p>
+            <a href="sell.html" class="mt-4 inline-block bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600">
+                Sell Now
+            </a>
+        </div>
+
+        <!-- Exchange Card -->
+        <div class="bg-white p-6 shadow-md rounded text-center">
+            <h3 class="text-xl font-bold">Exchange</h3>
+            <p class="text-gray-600 mt-2">Trade your old products for discounts.</p>
+            <a href="exchange.html" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800">
+                Start Exchanging
+            </a>
+        </div>
+
+       
+
+
+
+    <script>
+        // ✅ Logout Function
+        function logout() {
+            localStorage.removeItem("user");
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        // ✅ Redirect if Not Logged In
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>

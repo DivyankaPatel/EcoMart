@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EcoMart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+
+    <div class="bg-white p-6 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-bold text-center">Login</h2>
+        <input id="login-email" type="email" placeholder="Email" class="w-full p-2 border rounded mt-2" required>
+        <input id="login-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2" required>
+        <button onclick="loginUser()" class="w-full bg-green-600 text-white p-2 rounded mt-4 hover:bg-green-700">
+            Login
+        </button>
+        <p class="text-center mt-3 text-sm">
+            Don't have an account?
+            <a href="./signup.html" class="text-green-600 hover:underline">Sign up here</a>
+        </p>
+    </div>
+
+    <script defer>
+        function loginUser() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+
+            if (!email || !password) {
+                alert("Please enter your email and password.");
+                return;
+            }
+
+            // Simulated authentication (replace with backend validation)
+            console.log("Logging in:", { email, password });
+
+            // Store user session (basic session handling)
+            localStorage.setItem("user", email);
+
+            alert("Login successful! Redirecting to home page...");
+            window.location.href = "index.html"; // Redirect to the home page
+        }
+
+        // Redirect logged-in users to home if they access login page
+        if (localStorage.getItem("user")) {
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+
+</html>
